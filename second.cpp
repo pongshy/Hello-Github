@@ -8,5 +8,7 @@ int main()
 		cout << "hello world!" << endl;
 	}
 	
+	//²âÊÔÒ»ÏÂ´úÂë³åÍ» 
+	
 	return 0;
 }
