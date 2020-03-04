@@ -8,7 +8,7 @@ int main()
 		cout << "aaa" << endl;
 	}
 
-	cout << "hello world" << endl;
+	cout << "hello world heiheiehiei" << endl;
 	
 	return 0;
 }
