@@ -10,5 +10,14 @@ int main()
 
 	cout << "hello world heiheiehiei" << endl;
 	
+	int n = 0;
+	
+	cin >> n;
+	while (n--) {
+		cout << "***********" << endl;
+		cout << "n = " << n << endl;
+		cout << "***********" << endl;
+	}
+	
 	return 0;
 }
