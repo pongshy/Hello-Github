@@ -16,7 +16,7 @@ int main()
 	while (n--) {
 		cout << "***********" << endl;
 		cout << "n = " << n << endl;
-		cout << "***********" << endl;
+		cout << endl;
 	}
 	
 	return 0;
