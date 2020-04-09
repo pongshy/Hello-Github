@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shu.labrary.mapper.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.shu.labrary.pojo.News" >
+    <id column="newsId" property="newsid" jdbcType="INTEGER" />
+    <result column="newsname" property="newsname" jdbcType="VARCHAR" />
+    <result column="newstype" property="newstype" jdbcType="VARCHAR" />
+    <result column="newsstatus" property="newsstatus" jdbcType="VARCHAR" />
+    <result column="newsauth" property="newsauth" jdbcType="VARCHAR" />
+    <result column="newstime" property="newstime" jdbcType="TIMESTAMP" />
+    <result column="newslabel" property="newslabel" jdbcType="VARCHAR" />
+    <result column="havepicture" property="havepicture" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.shu.labrary.pojo.News" extends="BaseResultMap" >
+    <result column="newscontext" property="newscontext" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    newsId, newsname, newstype, newsstatus, newsauth, newstime, newslabel, havepicture
+  </sql>
+  <sql id="Blob_Column_List" >
+    newscontext
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.shu.labrary.pojo.NewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.labrary.pojo.NewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
+  <select id="selectNewsByDate" resultType="java.util.Map">
+   SELECT news.newsId,news.newsstatus,news.newsname,news.newstype,news.newstime,news.newsauth FROM news
+WHERE datediff(news.newstime,  #{0,jdbcType=DATE})>=0 and  datediff(#{1,jdbcType=DATE},news.newstime)>=0
+  </select>
+
+
+  <select id="selectNewsLatest" resultType="java.util.Map">
+    SELECT news.newsId,news.newsname FROM news ORDER BY news.newstime DESC LIMIT 8
+  </select>
+
+  <select id="selectManagerNews" resultType="java.util.Map">
+    SELECT news.newsId,news.newsname FROM news WHERE news.newstype="规则制度" ORDER BY news.newstime DESC LIMIT 8
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.labrary.pojo.NewsExample" >
+    delete from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.labrary.pojo.News" >
+    insert into news (newsId, newsname, newstype, 
+      newsstatus, newsauth, newstime, 
+      newslabel, havepicture, newscontext
+      )
+    values (#{newsid,jdbcType=INTEGER}, #{newsname,jdbcType=VARCHAR}, #{newstype,jdbcType=VARCHAR}, 
+      #{newsstatus,jdbcType=VARCHAR}, #{newsauth,jdbcType=VARCHAR}, #{newstime,jdbcType=TIMESTAMP}, 
+      #{newslabel,jdbcType=VARCHAR}, #{havepicture,jdbcType=INTEGER}, #{newscontext,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.labrary.pojo.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newsid != null" >
+        newsId,
+      </if>
+      <if test="newsname != null" >
+        newsname,
+      </if>
+      <if test="newstype != null" >
+        newstype,
+      </if>
+      <if test="newsstatus != null" >
+        newsstatus,
+      </if>
+      <if test="newsauth != null" >
+        newsauth,
+      </if>
+      <if test="newstime != null" >
+        newstime,
+      </if>
+      <if test="newslabel != null" >
+        newslabel,
+      </if>
+      <if test="havepicture != null" >
+        havepicture,
+      </if>
+      <if test="newscontext != null" >
+        newscontext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newsid != null" >
+        #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="newsname != null" >
+        #{newsname,jdbcType=VARCHAR},
+      </if>
+      <if test="newstype != null" >
+        #{newstype,jdbcType=VARCHAR},
+      </if>
+      <if test="newsstatus != null" >
+        #{newsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newsauth != null" >
+        #{newsauth,jdbcType=VARCHAR},
+      </if>
+      <if test="newstime != null" >
+        #{newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newslabel != null" >
+        #{newslabel,jdbcType=VARCHAR},
+      </if>
+      <if test="havepicture != null" >
+        #{havepicture,jdbcType=INTEGER},
+      </if>
+      <if test="newscontext != null" >
+        #{newscontext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.labrary.pojo.NewsExample" resultType="java.lang.Integer" >
+    select count(*) from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update news
+    <set >
+      <if test="record.newsid != null" >
+        newsId = #{record.newsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.newsname != null" >
+        newsname = #{record.newsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newstype != null" >
+        newstype = #{record.newstype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsstatus != null" >
+        newsstatus = #{record.newsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsauth != null" >
+        newsauth = #{record.newsauth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newstime != null" >
+        newstime = #{record.newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newslabel != null" >
+        newslabel = #{record.newslabel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.havepicture != null" >
+        havepicture = #{record.havepicture,jdbcType=INTEGER},
+      </if>
+      <if test="record.newscontext != null" >
+        newscontext = #{record.newscontext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update news
+    set newsId = #{record.newsid,jdbcType=INTEGER},
+      newsname = #{record.newsname,jdbcType=VARCHAR},
+      newstype = #{record.newstype,jdbcType=VARCHAR},
+      newsstatus = #{record.newsstatus,jdbcType=VARCHAR},
+      newsauth = #{record.newsauth,jdbcType=VARCHAR},
+      newstime = #{record.newstime,jdbcType=TIMESTAMP},
+      newslabel = #{record.newslabel,jdbcType=VARCHAR},
+      havepicture = #{record.havepicture,jdbcType=INTEGER},
+      newscontext = #{record.newscontext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update news
+    set newsId = #{record.newsid,jdbcType=INTEGER},
+      newsname = #{record.newsname,jdbcType=VARCHAR},
+      newstype = #{record.newstype,jdbcType=VARCHAR},
+      newsstatus = #{record.newsstatus,jdbcType=VARCHAR},
+      newsauth = #{record.newsauth,jdbcType=VARCHAR},
+      newstime = #{record.newstime,jdbcType=TIMESTAMP},
+      newslabel = #{record.newslabel,jdbcType=VARCHAR},
+      havepicture = #{record.havepicture,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.labrary.pojo.News" >
+    update news
+    <set >
+      <if test="newsname != null" >
+        newsname = #{newsname,jdbcType=VARCHAR},
+      </if>
+      <if test="newstype != null" >
+        newstype = #{newstype,jdbcType=VARCHAR},
+      </if>
+      <if test="newsstatus != null" >
+        newsstatus = #{newsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newsauth != null" >
+        newsauth = #{newsauth,jdbcType=VARCHAR},
+      </if>
+      <if test="newstime != null" >
+        newstime = #{newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newslabel != null" >
+        newslabel = #{newslabel,jdbcType=VARCHAR},
+      </if>
+      <if test="havepicture != null" >
+        havepicture = #{havepicture,jdbcType=INTEGER},
+      </if>
+      <if test="newscontext != null" >
+        newscontext = #{newscontext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.shu.labrary.pojo.News" >
+    update news
+    set newsname = #{newsname,jdbcType=VARCHAR},
+      newstype = #{newstype,jdbcType=VARCHAR},
+      newsstatus = #{newsstatus,jdbcType=VARCHAR},
+      newsauth = #{newsauth,jdbcType=VARCHAR},
+      newstime = #{newstime,jdbcType=TIMESTAMP},
+      newslabel = #{newslabel,jdbcType=VARCHAR},
+      havepicture = #{havepicture,jdbcType=INTEGER},
+      newscontext = #{newscontext,jdbcType=LONGVARCHAR}
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.labrary.pojo.News" >
+    update news
+    set newsname = #{newsname,jdbcType=VARCHAR},
+      newstype = #{newstype,jdbcType=VARCHAR},
+      newsstatus = #{newsstatus,jdbcType=VARCHAR},
+      newsauth = #{newsauth,jdbcType=VARCHAR},
+      newstime = #{newstime,jdbcType=TIMESTAMP},
+      newslabel = #{newslabel,jdbcType=VARCHAR},
+      havepicture = #{havepicture,jdbcType=INTEGER}
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </update>
+</mapper>

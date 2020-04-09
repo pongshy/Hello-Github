@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shu.labrary.mapper.StteacherMapper" >
+  <resultMap id="BaseResultMap" type="com.shu.labrary.pojo.Stteacher" >
+    <id column="stteacherid" property="stteacherid" jdbcType="INTEGER" />
+    <result column="stteachername" property="stteachername" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="departmentid" property="departmentid" jdbcType="INTEGER" />
+    <result column="helpintention" property="helpintention" jdbcType="VARCHAR" />
+    <result column="building" property="building" jdbcType="VARCHAR" />
+    <result column="imagesrc" property="imagesrc" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="organization" property="organization" jdbcType="VARCHAR" />
+    <result column="campus" property="campus" jdbcType="VARCHAR" />
+    <result column="ordernumber" property="ordernumber" jdbcType="INTEGER" />
+    <result column="satisfaction" property="satisfaction" jdbcType="VARCHAR" />
+    <result column="reservestatus" property="reservestatus" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    stteacherid, stteachername, duty, departmentid, helpintention, building, imagesrc, 
+    description, organization, campus, ordernumber, satisfaction, reservestatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.labrary.pojo.StteacherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stteacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stteacher
+    where stteacherid = #{stteacherid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stteacher
+    where stteacherid = #{stteacherid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.labrary.pojo.StteacherExample" >
+    delete from stteacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.labrary.pojo.Stteacher" >
+    insert into stteacher (stteacherid, stteachername, duty, 
+      departmentid, helpintention, building, 
+      imagesrc, description, organization, 
+      campus, ordernumber, satisfaction, 
+      reservestatus)
+    values (#{stteacherid,jdbcType=INTEGER}, #{stteachername,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, 
+      #{departmentid,jdbcType=INTEGER}, #{helpintention,jdbcType=VARCHAR}, #{building,jdbcType=VARCHAR}, 
+      #{imagesrc,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR}, 
+      #{campus,jdbcType=VARCHAR}, #{ordernumber,jdbcType=INTEGER}, #{satisfaction,jdbcType=VARCHAR}, 
+      #{reservestatus,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.labrary.pojo.Stteacher" >
+    insert into stteacher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stteacherid != null" >
+        stteacherid,
+      </if>
+      <if test="stteachername != null" >
+        stteachername,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="departmentid != null" >
+        departmentid,
+      </if>
+      <if test="helpintention != null" >
+        helpintention,
+      </if>
+      <if test="building != null" >
+        building,
+      </if>
+      <if test="imagesrc != null" >
+        imagesrc,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="organization != null" >
+        organization,
+      </if>
+      <if test="campus != null" >
+        campus,
+      </if>
+      <if test="ordernumber != null" >
+        ordernumber,
+      </if>
+      <if test="satisfaction != null" >
+        satisfaction,
+      </if>
+      <if test="reservestatus != null" >
+        reservestatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stteacherid != null" >
+        #{stteacherid,jdbcType=INTEGER},
+      </if>
+      <if test="stteachername != null" >
+        #{stteachername,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="helpintention != null" >
+        #{helpintention,jdbcType=VARCHAR},
+      </if>
+      <if test="building != null" >
+        #{building,jdbcType=VARCHAR},
+      </if>
+      <if test="imagesrc != null" >
+        #{imagesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="campus != null" >
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernumber != null" >
+        #{ordernumber,jdbcType=INTEGER},
+      </if>
+      <if test="satisfaction != null" >
+        #{satisfaction,jdbcType=VARCHAR},
+      </if>
+      <if test="reservestatus != null" >
+        #{reservestatus,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.labrary.pojo.StteacherExample" resultType="java.lang.Integer" >
+    select count(*) from stteacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stteacher
+    <set >
+      <if test="record.stteacherid != null" >
+        stteacherid = #{record.stteacherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.stteachername != null" >
+        stteachername = #{record.stteachername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duty != null" >
+        duty = #{record.duty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentid != null" >
+        departmentid = #{record.departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.helpintention != null" >
+        helpintention = #{record.helpintention,jdbcType=VARCHAR},
+      </if>
+      <if test="record.building != null" >
+        building = #{record.building,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagesrc != null" >
+        imagesrc = #{record.imagesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organization != null" >
+        organization = #{record.organization,jdbcType=VARCHAR},
+      </if>
+      <if test="record.campus != null" >
+        campus = #{record.campus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordernumber != null" >
+        ordernumber = #{record.ordernumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.satisfaction != null" >
+        satisfaction = #{record.satisfaction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reservestatus != null" >
+        reservestatus = #{record.reservestatus,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stteacher
+    set stteacherid = #{record.stteacherid,jdbcType=INTEGER},
+      stteachername = #{record.stteachername,jdbcType=VARCHAR},
+      duty = #{record.duty,jdbcType=VARCHAR},
+      departmentid = #{record.departmentid,jdbcType=INTEGER},
+      helpintention = #{record.helpintention,jdbcType=VARCHAR},
+      building = #{record.building,jdbcType=VARCHAR},
+      imagesrc = #{record.imagesrc,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      organization = #{record.organization,jdbcType=VARCHAR},
+      campus = #{record.campus,jdbcType=VARCHAR},
+      ordernumber = #{record.ordernumber,jdbcType=INTEGER},
+      satisfaction = #{record.satisfaction,jdbcType=VARCHAR},
+      reservestatus = #{record.reservestatus,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.labrary.pojo.Stteacher" >
+    update stteacher
+    <set >
+      <if test="stteachername != null" >
+        stteachername = #{stteachername,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        departmentid = #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="helpintention != null" >
+        helpintention = #{helpintention,jdbcType=VARCHAR},
+      </if>
+      <if test="building != null" >
+        building = #{building,jdbcType=VARCHAR},
+      </if>
+      <if test="imagesrc != null" >
+        imagesrc = #{imagesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="campus != null" >
+        campus = #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernumber != null" >
+        ordernumber = #{ordernumber,jdbcType=INTEGER},
+      </if>
+      <if test="satisfaction != null" >
+        satisfaction = #{satisfaction,jdbcType=VARCHAR},
+      </if>
+      <if test="reservestatus != null" >
+        reservestatus = #{reservestatus,jdbcType=BIT},
+      </if>
+    </set>
+    where stteacherid = #{stteacherid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.labrary.pojo.Stteacher" >
+    update stteacher
+    set stteachername = #{stteachername,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      departmentid = #{departmentid,jdbcType=INTEGER},
+      helpintention = #{helpintention,jdbcType=VARCHAR},
+      building = #{building,jdbcType=VARCHAR},
+      imagesrc = #{imagesrc,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      organization = #{organization,jdbcType=VARCHAR},
+      campus = #{campus,jdbcType=VARCHAR},
+      ordernumber = #{ordernumber,jdbcType=INTEGER},
+      satisfaction = #{satisfaction,jdbcType=VARCHAR},
+      reservestatus = #{reservestatus,jdbcType=BIT}
+    where stteacherid = #{stteacherid,jdbcType=INTEGER}
+  </update>
+</mapper>

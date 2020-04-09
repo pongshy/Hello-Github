@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shu.labrary.mapper.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.shu.labrary.pojo.Admin" >
+    <id column="adminId" property="adminid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="auth" property="auth" jdbcType="VARCHAR" />
+    <result column="online" property="online" jdbcType="BIT" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="organization" property="organization" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="brokenrecord" property="brokenrecord" jdbcType="INTEGER" />
+    <result column="eassynumber" property="eassynumber" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    adminId, name, auth, online, duty, departmentId, phone, organization, password, brokenrecord, 
+    eassynumber, email
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.labrary.pojo.AdminExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.labrary.pojo.AdminExample" >
+    delete from admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.labrary.pojo.Admin" >
+    insert into admin (adminId, name, auth, 
+      online, duty, departmentId, 
+      phone, organization, password, 
+      brokenrecord, eassynumber, email
+      )
+    values (#{adminid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{auth,jdbcType=VARCHAR}, 
+      #{online,jdbcType=BIT}, #{duty,jdbcType=VARCHAR}, #{departmentid,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{brokenrecord,jdbcType=INTEGER}, #{eassynumber,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.labrary.pojo.Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminid != null" >
+        adminId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="auth != null" >
+        auth,
+      </if>
+      <if test="online != null" >
+        online,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="departmentid != null" >
+        departmentId,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="organization != null" >
+        organization,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="brokenrecord != null" >
+        brokenrecord,
+      </if>
+      <if test="eassynumber != null" >
+        eassynumber,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminid != null" >
+        #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="auth != null" >
+        #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        #{online,jdbcType=BIT},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="brokenrecord != null" >
+        #{brokenrecord,jdbcType=INTEGER},
+      </if>
+      <if test="eassynumber != null" >
+        #{eassynumber,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.labrary.pojo.AdminExample" resultType="java.lang.Integer" >
+    select count(*) from admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin
+    <set >
+      <if test="record.adminid != null" >
+        adminId = #{record.adminid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auth != null" >
+        auth = #{record.auth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.online != null" >
+        online = #{record.online,jdbcType=BIT},
+      </if>
+      <if test="record.duty != null" >
+        duty = #{record.duty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentid != null" >
+        departmentId = #{record.departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organization != null" >
+        organization = #{record.organization,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brokenrecord != null" >
+        brokenrecord = #{record.brokenrecord,jdbcType=INTEGER},
+      </if>
+      <if test="record.eassynumber != null" >
+        eassynumber = #{record.eassynumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin
+    set adminId = #{record.adminid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      auth = #{record.auth,jdbcType=VARCHAR},
+      online = #{record.online,jdbcType=BIT},
+      duty = #{record.duty,jdbcType=VARCHAR},
+      departmentId = #{record.departmentid,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      organization = #{record.organization,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      brokenrecord = #{record.brokenrecord,jdbcType=INTEGER},
+      eassynumber = #{record.eassynumber,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.labrary.pojo.Admin" >
+    update admin
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="auth != null" >
+        auth = #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        online = #{online,jdbcType=BIT},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        departmentId = #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="brokenrecord != null" >
+        brokenrecord = #{brokenrecord,jdbcType=INTEGER},
+      </if>
+      <if test="eassynumber != null" >
+        eassynumber = #{eassynumber,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.labrary.pojo.Admin" >
+    update admin
+    set name = #{name,jdbcType=VARCHAR},
+      auth = #{auth,jdbcType=VARCHAR},
+      online = #{online,jdbcType=BIT},
+      duty = #{duty,jdbcType=VARCHAR},
+      departmentId = #{departmentid,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      organization = #{organization,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      brokenrecord = #{brokenrecord,jdbcType=INTEGER},
+      eassynumber = #{eassynumber,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR}
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shu.labrary.mapper.EssayMapper" >
+  <resultMap id="BaseResultMap" type="com.shu.labrary.pojo.Essay" >
+    <id column="essayId" property="essayid" jdbcType="INTEGER" />
+    <result column="essayname" property="essayname" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="essaysrc" property="essaysrc" jdbcType="VARCHAR" />
+    <result column="onlin" property="onlin" jdbcType="INTEGER" />
+    <result column="teacherid" property="teacherid" jdbcType="INTEGER" />
+    <result column="finishtime" property="finishtime" jdbcType="TIMESTAMP" />
+    <result column="adminId" property="adminid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    essayId, essayname, description, essaysrc, onlin, teacherid, finishtime, adminId
+  </sql>
+
+  <select id="selecthasupdatedessay" resultType="java.util.Map" parameterType="java.lang.Integer">
+ SELECT essay.essayId as essayid,essay.essayname,essay.essaysrc,essay.description,essay.finishtime,essay.onlin,admin.adminId,admin.`name`,applybody.beginTime
+ FROM essay,admin,applybody
+ WHERE  essay.adminId=admin.adminId AND applybody.essayId=essay.essayId AND applybody.beginTime &lt; (NOW()+INTERVAL 8 HOUR)
+   </select>
+
+
+  <select id="selectnoupdatedessay" resultType="java.util.Map" parameterType="java.lang.Integer">
+ SELECT essay.essayId as essayid,essay.essayname,essay.essaysrc,essay.description,essay.finishtime,essay.onlin,admin.adminId,admin.`name`,applybody.beginTime
+ FROM essay,admin,applybody
+ WHERE  essay.adminId=admin.adminId AND applybody.essayId=essay.essayId AND applybody.beginTime>=(NOW()+INTERVAL 8 HOUR)
+
+   </select>
+
+
+  <select id="selectessays" resultType="java.util.Map" parameterType="java.lang.Integer">
+ SELECT essay.essayId as essayid,essay.essayname,essay.essaysrc,essay.description,essay.finishtime,essay.onlin,admin.adminId,admin.`name`
+ FROM essay,admin
+ WHERE  essay.adminId=admin.adminId AND essay.essayId=#{status}
+   </select>
+
+
+  <select id="selectEssaysByName" resultType="java.util.Map" parameterType="java.lang.String">
+ SELECT essay.essayId as essayid,essay.essayname,essay.essaysrc,essay.description,essay.finishtime,essay.onlin,admin.adminId,admin.`name`
+ FROM essay,admin
+ WHERE  essay.adminId=admin.adminId AND essay.name=#{status}
+
+   </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.labrary.pojo.EssayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from essay
+    where essayId = #{essayid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from essay
+    where essayId = #{essayid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.labrary.pojo.EssayExample" >
+    delete from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.labrary.pojo.Essay" >
+    insert into essay (essayId, essayname, description, 
+      essaysrc, onlin, teacherid, 
+      finishtime, adminId)
+    values (#{essayid,jdbcType=INTEGER}, #{essayname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{essaysrc,jdbcType=VARCHAR}, #{onlin,jdbcType=INTEGER}, #{teacherid,jdbcType=INTEGER}, 
+      #{finishtime,jdbcType=TIMESTAMP}, #{adminid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.labrary.pojo.Essay" >
+    insert into essay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="essayid != null" >
+        essayId,
+      </if>
+      <if test="essayname != null" >
+        essayname,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="essaysrc != null" >
+        essaysrc,
+      </if>
+      <if test="onlin != null" >
+        onlin,
+      </if>
+      <if test="teacherid != null" >
+        teacherid,
+      </if>
+      <if test="finishtime != null" >
+        finishtime,
+      </if>
+      <if test="adminid != null" >
+        adminId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="essayid != null" >
+        #{essayid,jdbcType=INTEGER},
+      </if>
+      <if test="essayname != null" >
+        #{essayname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="essaysrc != null" >
+        #{essaysrc,jdbcType=VARCHAR},
+      </if>
+      <if test="onlin != null" >
+        #{onlin,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="finishtime != null" >
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminid != null" >
+        #{adminid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.labrary.pojo.EssayExample" resultType="java.lang.Integer" >
+    select count(*) from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update essay
+    <set >
+      <if test="record.essayid != null" >
+        essayId = #{record.essayid,jdbcType=INTEGER},
+      </if>
+      <if test="record.essayname != null" >
+        essayname = #{record.essayname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.essaysrc != null" >
+        essaysrc = #{record.essaysrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onlin != null" >
+        onlin = #{record.onlin,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherid != null" >
+        teacherid = #{record.teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishtime != null" >
+        finishtime = #{record.finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adminid != null" >
+        adminId = #{record.adminid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update essay
+    set essayId = #{record.essayid,jdbcType=INTEGER},
+      essayname = #{record.essayname,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      essaysrc = #{record.essaysrc,jdbcType=VARCHAR},
+      onlin = #{record.onlin,jdbcType=INTEGER},
+      teacherid = #{record.teacherid,jdbcType=INTEGER},
+      finishtime = #{record.finishtime,jdbcType=TIMESTAMP},
+      adminId = #{record.adminid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.labrary.pojo.Essay" >
+    update essay
+    <set >
+      <if test="essayname != null" >
+        essayname = #{essayname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="essaysrc != null" >
+        essaysrc = #{essaysrc,jdbcType=VARCHAR},
+      </if>
+      <if test="onlin != null" >
+        onlin = #{onlin,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        teacherid = #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="finishtime != null" >
+        finishtime = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminid != null" >
+        adminId = #{adminid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where essayId = #{essayid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.labrary.pojo.Essay" >
+    update essay
+    set essayname = #{essayname,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      essaysrc = #{essaysrc,jdbcType=VARCHAR},
+      onlin = #{onlin,jdbcType=INTEGER},
+      teacherid = #{teacherid,jdbcType=INTEGER},
+      finishtime = #{finishtime,jdbcType=TIMESTAMP},
+      adminId = #{adminid,jdbcType=INTEGER}
+    where essayId = #{essayid,jdbcType=INTEGER}
+  </update>
+</mapper>

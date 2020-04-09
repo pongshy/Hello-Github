@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shu.labrary.mapper.TeacherqMapper" >
+  <resultMap id="BaseResultMap" type="com.shu.labrary.pojo.Teacherq" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="absent" property="absent" jdbcType="INTEGER" />
+    <result column="studentMark" property="studentmark" jdbcType="DOUBLE" />
+    <result column="advice" property="advice" jdbcType="VARCHAR" />
+    <result column="requsetId" property="requsetid" jdbcType="INTEGER" />
+    <result column="teacherId" property="teacherid" jdbcType="INTEGER" />
+    <result column="finish" property="finish" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, absent, studentMark, advice, requsetId, teacherId, finish
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.labrary.pojo.TeacherqExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from teacherQ
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacherQ
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from teacherQ
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.labrary.pojo.TeacherqExample" >
+    delete from teacherQ
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.labrary.pojo.Teacherq" >
+    insert into teacherQ (id, absent, studentMark, 
+      advice, requsetId, teacherId, 
+      finish)
+    values (#{id,jdbcType=INTEGER}, #{absent,jdbcType=INTEGER}, #{studentmark,jdbcType=DOUBLE}, 
+      #{advice,jdbcType=VARCHAR}, #{requsetid,jdbcType=INTEGER}, #{teacherid,jdbcType=INTEGER}, 
+      #{finish,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.labrary.pojo.Teacherq" >
+    insert into teacherQ
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="absent != null" >
+        absent,
+      </if>
+      <if test="studentmark != null" >
+        studentMark,
+      </if>
+      <if test="advice != null" >
+        advice,
+      </if>
+      <if test="requsetid != null" >
+        requsetId,
+      </if>
+      <if test="teacherid != null" >
+        teacherId,
+      </if>
+      <if test="finish != null" >
+        finish,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="absent != null" >
+        #{absent,jdbcType=INTEGER},
+      </if>
+      <if test="studentmark != null" >
+        #{studentmark,jdbcType=DOUBLE},
+      </if>
+      <if test="advice != null" >
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="requsetid != null" >
+        #{requsetid,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="finish != null" >
+        #{finish,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.labrary.pojo.TeacherqExample" resultType="java.lang.Integer" >
+    select count(*) from teacherQ
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update teacherQ
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.absent != null" >
+        absent = #{record.absent,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentmark != null" >
+        studentMark = #{record.studentmark,jdbcType=DOUBLE},
+      </if>
+      <if test="record.advice != null" >
+        advice = #{record.advice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requsetid != null" >
+        requsetId = #{record.requsetid,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherid != null" >
+        teacherId = #{record.teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.finish != null" >
+        finish = #{record.finish,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update teacherQ
+    set id = #{record.id,jdbcType=INTEGER},
+      absent = #{record.absent,jdbcType=INTEGER},
+      studentMark = #{record.studentmark,jdbcType=DOUBLE},
+      advice = #{record.advice,jdbcType=VARCHAR},
+      requsetId = #{record.requsetid,jdbcType=INTEGER},
+      teacherId = #{record.teacherid,jdbcType=INTEGER},
+      finish = #{record.finish,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.labrary.pojo.Teacherq" >
+    update teacherQ
+    <set >
+      <if test="absent != null" >
+        absent = #{absent,jdbcType=INTEGER},
+      </if>
+      <if test="studentmark != null" >
+        studentMark = #{studentmark,jdbcType=DOUBLE},
+      </if>
+      <if test="advice != null" >
+        advice = #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="requsetid != null" >
+        requsetId = #{requsetid,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        teacherId = #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="finish != null" >
+        finish = #{finish,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.labrary.pojo.Teacherq" >
+    update teacherQ
+    set absent = #{absent,jdbcType=INTEGER},
+      studentMark = #{studentmark,jdbcType=DOUBLE},
+      advice = #{advice,jdbcType=VARCHAR},
+      requsetId = #{requsetid,jdbcType=INTEGER},
+      teacherId = #{teacherid,jdbcType=INTEGER},
+      finish = #{finish,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
